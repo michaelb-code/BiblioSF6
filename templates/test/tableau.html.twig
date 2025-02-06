@@ -1,0 +1,68 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+<ul>
+    <li>Jour : {{ tableau['jour'] }}</li>
+    <li>Mois : {{ tableau.mois }}</li>
+    <li>Année : {{ tableau['annee'] }}</li>
+</ul>
+
+<ul>
+    <li>{{ tableau2[0] }}</li>
+    <li>{{ tableau2.1 }}</li>
+    <li>{{ tableau2.2 }}</li>
+</ul>
+
+{# boucle for avec compteur numérique #}
+{% for i in 0..2 %}
+    {{tableau2[i]}}
+{% endfor %}
+
+
+{# boucle for #}
+<ul>
+{% for item in tableau %}
+    <li>{{item}}</li>
+{% endfor %}
+</ul>
+
+{# syntaxe foreach avec les indices #}
+<ul>
+{% for indice, valeur in tableau %}
+    <li>{{indice}} : {{valeur}}</li>
+{% endfor %}
+</ul>
+
+{# if #}
+
+{% if nombre < 2 %}
+<p> Le nombre est inferieur a 2</p>
+{% elseif nombre < 10 %}
+<p> Le nombre est compris entre 2 et 10</p>
+{% else %}
+    
+<p> Le nombre est superieur ou égal a 10</p>
+
+{% endif %}
+
+{# TEST  #}
+{# equivalent a isset #}
+{% if chaine is defined %}
+
+<h3> {{chaine}}</h3>
+
+{% endif %}
+
+
+{% if nombre is defined and nombre is empty %}
+
+<h4>le nombre est défini et vide</h4>
+
+{% endif %}
+
+{% if chaine is defined and chaine is empty %}
+<h4> La chaine existe mais il est vide</h4>
+{% endif %}
+
+{% endblock %}
