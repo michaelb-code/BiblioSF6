@@ -1,0 +1,18 @@
+{% extends "base.html.twig" %}
+
+{% block h1 %}<h1>CALCUL</h1>{% endblock %}
+
+{% block body %}
+
+<p>Addition : {{ chiffre1 }} + {{ chiffre2 }} = {{ chiffre1 + chiffre2 }}</p>
+<p>Soustraction : {{ chiffre1 }} - {{ chiffre2 }} = {{ chiffre1 - chiffre2 }}</p>
+<p>Multiplication : {{ chiffre1 }} * {{ chiffre2 }} = {{ chiffre1 * chiffre2 }}</p>
+{# <p>{{ chiffre1 }} / {{ chiffre2 }} = {{ chiffre1 / chiffre2 }}</p> #}
+
+{% if division == "Erreur" %}
+<p>impossible de diviser par 0</p>
+{% else %}
+<p>{{ division }}</p>
+{% endif %}
+
+{% endblock %}
