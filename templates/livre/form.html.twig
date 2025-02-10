@@ -1,0 +1,17 @@
+{% extends "base.html.twig" %}
+
+{% block h1 %}<h1>Gestionnaire des Livres</h1>{% endblock %}
+
+{% block body %}
+
+{% if mode is defined and mode == "modification" %}
+<h2>Modifier un livre</h2>
+{% else %}
+<h2>Ajouter un livre</h2>
+{% endif %}
+
+{{form(formLivre)}}
+
+
+
+{% endblock %}

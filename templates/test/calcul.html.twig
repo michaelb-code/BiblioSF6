@@ -1,8 +1,12 @@
 {% extends "base.html.twig" %}
 
+{% block title %}Calcul{% endblock %}
+
 {% block h1 %}<h1>CALCUL</h1>{% endblock %}
 
 {% block body %}
+
+<h2>Page test de calcul entre les chiffres {{chiffre1}} et {{chiffre2}} </h2>
 
 <p>Addition : {{ chiffre1 }} + {{ chiffre2 }} = {{ chiffre1 + chiffre2 }}</p>
 <p>Soustraction : {{ chiffre1 }} - {{ chiffre2 }} = {{ chiffre1 - chiffre2 }}</p>

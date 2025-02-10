@@ -1,14 +1,23 @@
 {% extends "base.html.twig" %}
+
+{% block h1 %}<h1>Gestionnaire des Livres</h1>{% endblock %}
+
 {% block body %}
     <form action="" method="post">
         <div class="mb-3">
-            <label for="titre" class="form-label">Titre</label>
+            <label for="titre" class="form-label">Titre du livre</label>
             <input type="text" class="form-control" id="titre" name="titre">
         </div>
         <div class="mb-3">
-            <label for="auteur" class="form-label">Auteur</label>
+            <label for="auteur" class="form-label">Nom de l'auteur</label>
             <input type="text" class="form-control" id="auteur" name="auteur">
         </div>
-        <button type="submit" class="btn btn-primary">Enregistrer un livre</button>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        {# {% if mode is defined and mode == "modification" %}
+            Modifier un livre
+        {% else %}
+            Enregistrer un livre
+        {% endif %} #}
+        
     </form>
 {% endblock %}

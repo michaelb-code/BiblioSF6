@@ -1,11 +1,102 @@
 {% extends 'base.html.twig' %}
-{% block title %}Liste des livres{% endblock %}
+
+{% block title %}Liste des livres
+{% endblock %}
 
 
 {% block body %}
-<h2>Page d'accueil de la bibliothèque</h2>
-{% for livre in livres %}
-<p>{{ livre.id }} - {{ livre.titre }} - {{ livre.auteur }}</p>
-    
-{% endfor %}
+
+	<h2>Page d'accueil de la bibliothèque</h2>
+
+	{# Ici la boucle for (équivalent à foreach dans cette syntaxe), me permet d'afficher la totalité des livres comme je l'entend #}
+
+	{# EXERCICE : Affichez la liste des livres dans un tableau HTML #}
+	{# Structure du tableau : Id, Titre, Auteur, Actions (pour les boutons supprimer et modifier) 
+						En fin de tableau, une ligne indiquant le nombre de livres #}
+	<pre>
+        
+    </pre>
+	{# {{ dump(livres) }} #}
+		<table class="table table-bordered table-striped"> <thead>
+			<th>Id</th>
+			<th>Titre</th>
+			<th>Auteur</th>
+			<th>Actions</th>
+		</thead>
+		<tbody>
+			{# cette boucle me permet de parcourir la variable $livres, elle contient tous les livres que j'ai récupéré via la requete dans le controller avec findAll, c'est un array à deux niveaux, chaque tour de boucle permet de "piocher" un livre dans le array
+			à chaque tour, la variable livre au singulier représente un objet Livre, donc, un enregistrement (donc un livre)
+			Je peux piocher ses propriétés avec la syntaxe livre.prop
+			#}
+			{% for livre in livres %}
+				<tr>
+					<td>{{livre.id}}</td>
+					<td>{{livre.titre}}</td>
+					<td>{{livre.auteur}}</td>
+					<td>
+						<a href="{{path("app_modifier", {id:livre.id})}}" class="btn btn-warning">
+							<i class="fa-regular fa-pen-to-square"></i>
+						</a>
+						{#  #}
+                        {# <a href="{{path("app_supprimer", {id:livre.id})}}" class="btn btn-danger">
+							<i class="fa-solid fa-skull"></i>
+						</a>  #}
+                        
+                        {# Je peux décommenter la ligne ci dessus pour garder le fonctionnement du passage par la page intermédiaire de suppression #}
+                       {# Sinon en gardant le code ci dessous, la confirmation de suppression est gérée par la modale dynamique pour chaque enregistrement #}
+                        {# --------------------------------------------
+                        -----------------------------------------------
+                        
+                         #}
+
+
+                         {# Bouton déclencheur de modale #}
+						<a href="" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalSupr{{livre.id}}">
+							<i class="fa-solid fa-skull"></i>
+						</a>
+						{# Modale qui s'affiche uniquement lors du clic sur le bouton déclencheur #}
+						<div class="modal fade" id="modalSupr{{livre.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h1 class="modal-title fs-5" id="exampleModalLabel">Confirmation de suppression du livre n°
+											{{livre.id}}</h1>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										<ul class="list-group">
+											<li class="list-group-item">ID :
+												{{livre.id}}
+											</li>
+											<li class="list-group-item">Titre :
+												{{livre.titre}}</li>
+											<li class="list-group-item">Auteur :
+												{{livre.auteur}}</li>
+										</ul>
+									</div>
+									<div class="modal-footer">
+                                    {# Bouton de fermeture de modale #}
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                    {# Bouton de validation du form, indiquant le souhait de supprimer, donc renvoie sur la route supprimer avec method POST, donc valide bel et bien la suppression #}
+										<form action="{{path("app_supprimer", {id:livre.id})}}" method="post">
+											<button type="submit" class="btn btn-danger">Supprimer</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+		<tfoot>
+			<th colspan="3">Nombre de livres :
+			</th>
+			{# Ici j'utilise un filtre twig pour récupérer la longueur de $livres donc le nombre de livre présents dans ma bibliothèque #}
+			{# liste des filtres twig https://twig.symfony.com/doc/3.x/filters/index.html #}
+			<td>
+				{{livres|length}}
+			</td>
+		</tfoot>
+	</table>
 {% endblock %}
