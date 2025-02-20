@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Abonne
+{% endblock %}
+
+{% block body %}
+	<h1>Abonne</h1>
+
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ abonne.id }}</td>
+			</tr>
+			<tr>
+				<th>Pseudo</th>
+				<td>{{ abonne.pseudo }}</td>
+			</tr>
+			<tr>
+				<th>Roles</th>
+				<td>
+					{# <td>{{ abonne.roles ? abonne.roles|json_encode : '' }}</td> #}
+					{% for role in abonne.roles %}
+						{% if loop.first %}
+
+							{% if role == "ROLE_ADMIN" %}Directeur
+
+								{% elseif role == "ROLE_BIBLIO" %}Bibliothècaire
+
+								{% elseif role == "ROLE_LECTEUR" %}Lecteur
+
+							{% endif %}
+
+						{% endif %}
+					{% endfor %}
+				</td>
+			</tr>
+		</tbody>
+	</tr>
+	{# <tr>
+		                <th>Password</th>
+		                <td>{{abonne.password}}</td>
+		            </tr> #}
+	<tr>
+		<th>Prenom</th>
+		<td>{{ abonne.prenom }}</td>
+	</tr>
+	<tr>
+		<th>Nom</th>
+		<td>{{ abonne.nom }}</td>
+	</tr>
+</tbody></table>
+<a class="btn btn-outline-primary btn-sm" href="{{ path('app_abonne_index') }}">Retour à la liste</a>
+<br />
+<a class="btn btn-outline-warning btn-sm" href="{{ path('app_abonne_edit', {'id': abonne.id}) }}">Éditer</a>
+<br />
+{{ include('abonne/_delete_form.html.twig') }}{% endblock %}

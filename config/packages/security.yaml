@@ -4,14 +4,31 @@ security:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
-        users_in_memory: { memory: null }
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\Abonne
+                property: pseudo
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             lazy: true
-            provider: users_in_memory
+            provider: app_user_provider
+            custom_authenticator: App\Security\LoginAuthenticator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
+
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800
+                path: /
+                # by default, the feature is enabled by checking a checkbox in the
+                # login form, uncomment the following line to always enable it.
+                #always_remember_me: true
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -22,8 +39,15 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+    # Ici je défini des droits d'accès en rapport avec un "pattern" de route, toutes les routes contenant /admin  seront limitées au ROLE_ADMIN
+    # Je peux ici citer plusieurs roles differents pour un meme pattern, je dois par contre les transmettre sous forme d'array (entre crochets)
+    
+        - { path: ^/admin, roles: [ROLE_ADMIN,ROLE_BIBLIO] }
+        - { path: ^/profile, roles: ROLE_LECTEUR }
+
+     # On peut aussi créer une hierarchie de role, pour indiquer qu'un role possède aussi les mêmes droits que un ou plusieurs autres rôles
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_LECTEUR, ROLE_BIBLIO]
 
 when@test:
     security:

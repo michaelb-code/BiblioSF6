@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Abonne index
+{% endblock %}
+
+{% block body %}
+	<h1>Abonne index</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Pseudo</th>
+				<th>Roles</th>
+				{# <th>Password</th> #}
+				<th>Prenom</th>
+				<th>Nom</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for abonne in abonnes %}
+				<tr>
+					<td>{{ abonne.id }}</td>
+					<td>{{ abonne.pseudo }}</td>
+					<td>
+						{# {% set break = false %} #}
+						{% for role in abonne.roles %}
+
+							{# {% if break == false %} #}
+							{% if loop.first %}
+
+								{% if role == "ROLE_ADMIN" %}Directeur
+									{# {% set break = true %} #}
+
+									{% elseif role == "ROLE_BIBLIO" %}Bibliothècaire
+									{# {% set break = true %} #}
+
+									{% elseif role == "ROLE_LECTEUR" %}Lecteur
+									{# {% set break = true %} #}
+								{% endif %}
+								{# {% endif %} #}
+							{% endif %}
+						{% endfor %}
+						{# {{ abonne.roles ? abonne.roles|json_encode : '' }}</td> #}
+						{# <td>{{abonne.password}}</td> #}
+					</td>
+					<td>{{ abonne.prenom }}</td>
+					<td>{{ abonne.nom }}</td>
+					<td>
+						<a class="btn btn-outline-info btn-sm" href="{{ path('app_abonne_show', {'id': abonne.id}) }}">Voir</a>
+						<a class="btn btn-outline-warning btn-sm" href="{{ path('app_abonne_edit', {'id': abonne.id}) }}">Éditer</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="7">aucun enregistrement trouvé</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<a class="btn btn-outline-primary btn-sm" href="{{ path('app_abonne_new') }}">Créer un nouveau</a>
+{% endblock %}

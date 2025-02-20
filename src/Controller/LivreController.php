@@ -10,10 +10,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+
+// pour bloquer toutes les routes pour ceux qui ne sont pas admin
+// La ligne ci dessous me permet de limiter l'accès AU CONTROLLER ENTIER ET TOUTES SES ROUTES, au ROLE_ADMIN
+// #[IsGranted("ROLE_ADMIN")]
+
+
+//dans le package securité.yaml
+// on a decommenté l'acces control et placé #[Route('/admin')] pour donner laccés qu'a l'admin
+#[Route('/admin')]
 
 final class LivreController extends AbstractController
 {
     #[Route('/livre', name: 'app_livre')]
+    // #[IsGranted("ROLE_ADMIN")]
     // Ici je rajoute la classe Repository de Livre qui me permet de lancer les requêtes de selection
     // En gros lorsque j'ai un SELECT à lancer sur une table, je le fais toujours au travers de son repository
     // (Rappel : Il se crée automatiquement en même temps que l'entité elle même)
@@ -103,7 +114,7 @@ final class LivreController extends AbstractController
             return $this->redirectToRoute("app_livre");
         }
         // dump($livre);
-
+        $this->addFlash("success", "Le livre a bien été enregistré");
         return $this->render("livre/form.html.twig", ["formLivre" => $formLivre]);
     }
 
@@ -137,10 +148,12 @@ final class LivreController extends AbstractController
 
         $formLivre->handleRequest($request);
 
-        if ($formLivre->isSubmitted() && $formLivre->isvalid()) {
+        if ($formLivre->isSubmitted() && $formLivre->isvalid()) { 
             // Le reste du fonctionnement ne diffère pas du tout de la route nouveau, on peut par contre se passer du persist car l'entité existe déjà dans la table, il suffit de faire un flush 
             // $em->persist($livre);
             $em->flush();
+            
+            $this->addFlash("success", "Le livre a bien été modifié");
             return $this->redirectToRoute("app_livre");
         }
 

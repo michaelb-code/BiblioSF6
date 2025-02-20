@@ -1,0 +1,63 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+	<div class="container-fluid">
+		<a class="navbar-brand" href="{{ path('app_home') }}">BiblioSF6</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				<li class="nav-item">
+					<a class="nav-link active" aria-current="page" href="{{ path('app_home') }}">Accueil</a>
+				</li>
+				{% if is_granted("ROLE_ADMIN") %}
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Gestion
+						</a>
+						<ul class="dropdown-menu">
+							<li>
+								<a class="dropdown-item" href="{{path("app_livre")}}">Livre</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="#">Categorie</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{path("app_abonne_index")}}">Abonne</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="#">Emprunt</a>
+							</li>
+						</ul>
+					</li>
+				{% endif %}
+				{% if app.user %}
+					{# pour affichier le bouton deconnexion si on est connecté et si on est pas connecte , on affiche le bouton inscription et connexiion #}
+					{# Dans les fichiers twig, on peut acceder à une variable globale 'app' on l'utilise avec app.user :  si app.user est non null, (c'est à dire contient un objet user (de la class Abonne)) alors on comprend que l'utilisateur est connecté et on peut récupérer plusieurs de ses informations #}
+
+					{# ou is_granted("ROLE_USER") #}
+					{# ou is granted("IS_AUTHENTICATED_FULLY") #}
+					{# Ici je rajoute le futur lien du profil, non pas en écrivant Profil sur le bouton, mais en écrivant le pseudo de l'utilisateur connecté #}
+						<li class="nav-item"> <a class="nav-link" href="{{path("app_logout")}}">Deconnexion</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">{{app.user.pseudo}}</a>
+					</li>
+				{% else %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{path("app_register")}}">Inscription</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{path("app_login")}}">Connexion</a>
+					</li>
+				{% endif %}
+				<li class="nav-item">
+					<a class="nav-link disabled" aria-disabled="true">Disabled</a>
+				</li>
+			</ul>
+			<form class="d-flex" role="search">
+				<input class="form-control me-2" type="search" placeholder="Rechercher" aria-label="Search">
+				<button class="btn btn-outline-success" type="submit">Rechercher</button>
+			</form>
+		</div>
+	</div>
+</nav>

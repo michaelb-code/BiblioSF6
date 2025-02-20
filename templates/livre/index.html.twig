@@ -76,7 +76,7 @@
 									</div>
 									<div class="modal-footer">
                                     {# Bouton de fermeture de modale #}
-										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+										<button type="button" class="btn btn-secondary "  data-bs-dismiss="modal">Annuler</button>
                                     {# Bouton de validation du form, indiquant le souhait de supprimer, donc renvoie sur la route supprimer avec method POST, donc valide bel et bien la suppression #}
 										<form action="{{path("app_supprimer", {id:livre.id})}}" method="post">
 											<button type="submit" class="btn btn-danger">Supprimer</button>
